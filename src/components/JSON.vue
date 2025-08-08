@@ -96,6 +96,17 @@
     <section class="lab-section">
       <h2>Attribute, Class and Style Binding with <code>v-bind</code></h2>
       <p>Highlighting Specific Authors:</p>
+
+      <!-- author highlight -->
+      <ul>
+        <li
+          v-for="author in authors"
+          :key="author.id"
+          :class="{ highlight: author.id === highlightedAuthorId }"
+        >
+          {{ author.name }} ({{ author.birthYear }})
+        </li>
+      </ul>
     </section>
   </div>
 </template>
@@ -109,6 +120,9 @@ import authors from '../assets/json/authors.json'
 import bookstores from '../assets/json/bookstores.json'
 
 const showMessage = ref(false)
+
+// author highlight
+const highlightedAuthorId = ref(3)
 
 // Activity 2: Get authors born after 1850
 const modernAuthors = computed(() => {
@@ -138,6 +152,11 @@ const austen = computed(() => {
 </script>
 
 <style scoped>
+.highlight {
+  background-color: #42b883;
+  color: white;
+}
+
 .json-lab {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   max-width: 80vw;
