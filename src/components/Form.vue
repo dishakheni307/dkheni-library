@@ -94,10 +94,10 @@
               v-model="formData.reason"
               @blur="() => validateReason(true)"
               @input="() => validateReason(false)"
-              minlength="5"
+              minlength="4"
               maxlength="100"
             ></textarea>
-            <div class="form-text">Please write 5–100 characters.</div>
+            <div class="form-text">Please write 4–100 characters.</div>
             <div v-if="errors.reason" class="text-danger mt-1">
               {{ errors.reason }}
             </div>
@@ -109,27 +109,41 @@
         </form>
       </div>
     </div>
-    <div class="row mt-5" v-if="submittedCards.length">
-      <div class="d-flex flex-wrap justify-content-start">
-        <div
-          v-for="(card, index) in submittedCards"
-          :key="index"
-          class="card m-2"
-          style="width: 18rem"
-        >
-          <div class="card-header">User Information</div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Username: {{ card.username }}</li>
-            <li class="list-group-item">Password: {{ card.password }}</li>
-            <li class="list-group-item">
-              Australian Resident: {{ card.isAustralian ? 'Yes' : 'No' }}
-            </li>
-            <li class="list-group-item">Gender: {{ card.gender }}</li>
-            <li class="list-group-item">Reason: {{ card.reason }}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <DataTable
+      v-if="submittedCards.length"
+      :value="submittedCards"
+      paginator
+      :rows="5"
+      :rowsPerPageOptions="[5, 10, 20]"
+      sortMode="multiple"
+      stripedRows
+      showGridlines
+      tableStyle="min-width: 50rem"
+      responsiveLayout="scroll"
+      class="mt-3"
+    >
+      <Column field="username" header="Username" sortable />
+
+      <Column header="Password" sortable>
+        <template #body="{ data }">
+          {{ data.password }}
+        </template>
+      </Column>
+
+      <Column header="Australian Resident" sortable>
+        <template #body="{ data }">
+          {{ data.isAustralian === 'yes' ? 'Yes' : 'No' }}
+        </template>
+      </Column>
+
+      <Column field="gender" header="Gender" sortable />
+
+      <Column header="Reason">
+        <template #body="{ data }">
+          {{ data.reason }}
+        </template>
+      </Column>
+    </DataTable>
   </div>
 </template>
 
@@ -152,10 +166,11 @@ const submitForm = () => {
   validateResident(true)
   validateGender(true)
   validateReason(true)
-  if (!errors.value.username && !errors.value.password) {
-    submittedCards.value.push({ ...formData.value })
-    clearForm()
-  }
+
+  if (Object.values(errors.value).some(Boolean)) return
+
+  submittedCards.value.push({ ...formData.value })
+  clearForm()
 }
 
 const clearForm = () => {
@@ -229,10 +244,10 @@ const validateReason = (blur) => {
   const txt = (formData.value.reason || '').trim()
   if (!txt) {
     if (blur) errors.value.reason = 'Reason is required.'
-  } else if (txt.length < 5) {
-    if (blur) errors.value.reason = 'Reason must be at least 5 characters.'
+  } else if (txt.length < 4) {
+    if (blur) errors.value.reason = 'Reason must be at least 4 characters.'
   } else if (txt.length > 100) {
-    if (blur) errors.value.reason = 'Reason must be 200 characters or fewer.'
+    if (blur) errors.value.reason = 'Reason must be 100 characters or fewer.'
   } else {
     errors.value.reason = null
   }
