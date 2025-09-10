@@ -1,0 +1,63 @@
+<script setup>
+import { RouterLink, useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { ref, onMounted } from 'vue'
+
+const router = useRouter()
+const route = useRoute()
+
+const authed = ref(false)
+const username = ref('')
+
+function refreshAuth() {
+  authed.value = localStorage.getItem('auth') === 'true'
+  username.value = localStorage.getItem('user') || ''
+}
+function doLogout() {
+  localStorage.removeItem('auth'); localStorage.removeItem('user')
+  refreshAuth()
+  router.push({ name: 'Login' })
+}
+
+onMounted(refreshAuth)
+// update header state whenever route changes (covers redirects after login/logout)
+onBeforeRouteUpdate(() => { refreshAuth() })
+</script>
+
+<template>
+  <!-- Using Bootstrap's Header template (starter code) -->
+  <div class="container">
+    <header class="d-flex justify-content-between align-items-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <RouterLink to="/" class="nav-link" active-class="active" aria-current="page">
+            Home (Week 5)
+          </RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink to="/about" class="nav-link" active-class="active">
+            About
+          </RouterLink>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center gap-2">
+        <span v-if="authed" class="text-muted">Hi, {{ username }}</span>
+        <RouterLink v-if="!authed" to="/login" class="btn btn-outline-primary btn-sm">Login</RouterLink>
+        <button v-else class="btn btn-danger btn-sm" @click="doLogout">Logout</button>
+      </div>
+    </header>
+  </div>
+</template>
+
+<style scoped>
+/* your existing styles kept */
+.b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid rgba(0, 0, 0, 0.15);
+  border-width: 1px 0;
+  box-shadow:
+    inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
+    inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+}
+</style>
