@@ -13,14 +13,17 @@ function refreshAuth() {
   username.value = localStorage.getItem('user') || ''
 }
 function doLogout() {
-  localStorage.removeItem('auth'); localStorage.removeItem('user')
+  localStorage.removeItem('auth')
+  localStorage.removeItem('user')
   refreshAuth()
   router.push({ name: 'Login' })
 }
 
 onMounted(refreshAuth)
 // update header state whenever route changes (covers redirects after login/logout)
-onBeforeRouteUpdate(() => { refreshAuth() })
+onBeforeRouteUpdate(() => {
+  refreshAuth()
+})
 </script>
 
 <template>
@@ -34,15 +37,25 @@ onBeforeRouteUpdate(() => { refreshAuth() })
           </RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/about" class="nav-link" active-class="active">
-            About
+          <RouterLink to="/about" class="nav-link" active-class="active"> About </RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink to="/FireLogin" class="nav-link" active-class="active">
+            Firebase Login
+          </RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink to="/FireRegister" class="nav-link" active-class="active">
+            Firebase Register
           </RouterLink>
         </li>
       </ul>
 
       <div class="d-flex align-items-center gap-2">
         <span v-if="authed" class="text-muted">Hi, {{ username }}</span>
-        <RouterLink v-if="!authed" to="/login" class="btn btn-outline-primary btn-sm">Login</RouterLink>
+        <RouterLink v-if="!authed" to="/login" class="btn btn-outline-primary btn-sm"
+          >Login</RouterLink
+        >
         <button v-else class="btn btn-danger btn-sm" @click="doLogout">Logout</button>
       </div>
     </header>

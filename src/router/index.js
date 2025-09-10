@@ -4,6 +4,8 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import LoginView from '../views/LoginView.vue'
 import AccessDenied from '../views/AccessDenied.vue'
+import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
+import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
@@ -20,11 +22,14 @@ const routes = [
     component: {
       template: '<div class="alert alert-info">Logging out…</div>',
       mounted() {
-        localStorage.removeItem('auth'); localStorage.removeItem('user')
+        localStorage.removeItem('auth')
+        localStorage.removeItem('user')
         this.$router.replace({ name: 'Login' })
       }
     }
   },
+  { path: '/FireLogin', name: 'FireLogin', component: FirebaseSigninView },
+  { path: '/FireRegister', name: 'FireRegister', component: FirebaseRegisterView },
 
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]
