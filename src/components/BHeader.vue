@@ -7,14 +7,18 @@ const route = useRoute()
 
 const authed = ref(false)
 const username = ref('')
+const role = ref('')
 
 function refreshAuth() {
   authed.value = localStorage.getItem('auth') === 'true'
   username.value = localStorage.getItem('user') || ''
+  role.value = localStorage.getItem('role') || ''
 }
 function doLogout() {
   localStorage.removeItem('auth')
   localStorage.removeItem('user')
+  localStorage.removeItem('role')
+  console.log('current user: ', username.value)
   refreshAuth()
   router.push({ name: 'Login' })
 }
@@ -52,7 +56,7 @@ onBeforeRouteUpdate(() => {
       </ul>
 
       <div class="d-flex align-items-center gap-2">
-        <span v-if="authed" class="text-muted">Hi, {{ username }}</span>
+        <span v-if="authed" class="text-muted">Hi, {{ role }}</span>
         <RouterLink v-if="!authed" to="/login" class="btn btn-outline-primary btn-sm"
           >Login</RouterLink
         >

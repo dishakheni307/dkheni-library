@@ -6,12 +6,23 @@ import LoginView from '../views/LoginView.vue'
 import AccessDenied from '../views/AccessDenied.vue'
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
+import Admin from '@/views/Admin.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('../views/AboutView.vue'),
+    meta: { requiresAuth: true } // <-- ADD THIS
+  },
 
-  { path: '/about', name: 'About', component: AboutView, meta: { requiresAuth: true } },
-
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin,
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
   { path: '/login', name: 'Login', component: LoginView, meta: { public: true } },
   { path: '/denied', name: 'Denied', component: AccessDenied, meta: { public: true } },
 
@@ -40,17 +51,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const authed = localStorage.getItem('auth') === 'true'
+  const isAuthenticated = localStorage.getItem('auth') === 'true'
+  const role = localStorage.getItem('role')
 
-  if (to.name === 'Login' && authed) {
-    return next(to.query.redirect || '/about')
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ path: '/login', query: { redirect: to.fullPath } })
+  } else if (to.meta.requiresAdmin && role !== 'admin') {
+    next({ path: '/denied' }) // <-- you can make a DeniedView.vue
+  } else {
+    next()
   }
-
-  if (to.meta.requiresAuth && !authed) {
-    return next({ name: 'Login', query: { redirect: to.fullPath, denied: 1 } })
-  }
-
-  next()
 })
 
 export default router
