@@ -24,7 +24,6 @@ function doLogout() {
 }
 
 onMounted(refreshAuth)
-// update header state whenever route changes (covers redirects after login/logout)
 onBeforeRouteUpdate(() => {
   refreshAuth()
 })
@@ -43,7 +42,12 @@ onBeforeRouteUpdate(() => {
         <li class="nav-item">
           <RouterLink to="/about" class="nav-link" active-class="active"> About </RouterLink>
         </li>
+
         <li class="nav-item">
+          <RouterLink to="/addbook" class="nav-link" active-class="active">Add Book</RouterLink>
+        </li>
+
+        <!-- <li class="nav-item">
           <RouterLink to="/FireLogin" class="nav-link" active-class="active">
             Firebase Login
           </RouterLink>
@@ -52,7 +56,7 @@ onBeforeRouteUpdate(() => {
           <RouterLink to="/FireRegister" class="nav-link" active-class="active">
             Firebase Register
           </RouterLink>
-        </li>
+        </li> -->
       </ul>
 
       <div class="d-flex align-items-center gap-2">

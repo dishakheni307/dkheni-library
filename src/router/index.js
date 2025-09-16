@@ -7,6 +7,8 @@ import AccessDenied from '../views/AccessDenied.vue'
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
 import Admin from '@/views/Admin.vue'
+import Member from '@/views/Member.vue'
+import AddBookView from '../views/AddBookView.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
@@ -16,12 +18,19 @@ const routes = [
     component: () => import('../views/AboutView.vue'),
     meta: { requiresAuth: true } // <-- ADD THIS
   },
+  { path: '/addbook', name: 'AddBook', component: AddBookView },
 
   {
     path: '/admin',
     name: 'admin',
     component: Admin,
     meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/member',
+    name: 'member',
+    component: Member,
+    meta: { requiresAuth: true }
   },
   { path: '/login', name: 'Login', component: LoginView, meta: { public: true } },
   { path: '/denied', name: 'Denied', component: AccessDenied, meta: { public: true } },

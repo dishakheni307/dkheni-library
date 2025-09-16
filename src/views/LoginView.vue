@@ -32,7 +32,7 @@ function onSubmit() {
     localStorage.setItem('auth', 'true')
     localStorage.setItem('user', found.username)
     localStorage.setItem('role', found.role) // usually "member"
-    const dest = route.query.redirect || '/about'
+    const dest = route.query.redirect || '/member'
     router.replace(dest)
   } else {
     localStorage.removeItem('auth')
