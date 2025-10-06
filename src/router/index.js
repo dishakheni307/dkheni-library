@@ -9,6 +9,7 @@ import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
 import Admin from '@/views/Admin.vue'
 import Member from '@/views/Member.vue'
 import AddBookView from '../views/AddBookView.vue'
+import GetBookCountView from '@/views/GetBookCountView.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
@@ -50,6 +51,7 @@ const routes = [
   },
   { path: '/FireLogin', name: 'FireLogin', component: FirebaseSigninView },
   { path: '/FireRegister', name: 'FireRegister', component: FirebaseRegisterView },
+  { path: '/GetBookCount', name: 'GetBookCount', component: GetBookCountView },
 
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ]

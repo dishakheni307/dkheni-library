@@ -47,6 +47,12 @@ onBeforeRouteUpdate(() => {
           <RouterLink to="/addbook" class="nav-link" active-class="active">Add Book</RouterLink>
         </li>
 
+        <li class="nav-item">
+          <RouterLink to="/GetBookCount" class="nav-link" active-class="active"
+            >Get Book Count</RouterLink
+          >
+        </li>
+
         <!-- <li class="nav-item">
           <RouterLink to="/FireLogin" class="nav-link" active-class="active">
             Firebase Login

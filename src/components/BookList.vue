@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="mb-2">Manage Books</h2>
+    <h2 class="mb-3 mt-5">Manage Books</h2>
     <ul>
       <li v-for="b in books" :key="b.id" style="margin-bottom: 8px">
         <template v-if="editingId === b.id">
@@ -11,8 +11,20 @@
         </template>
         <template v-else>
           <strong>{{ b.name }}</strong> — ISBN: {{ b.isbn }}
-          <button class="me-2" @click="startEdit(b)">Edit</button>
-          <button @click="remove(b.id)">Delete</button>
+          <button
+            style="background-color: green; border: none"
+            class="me-2 text-white p-2"
+            @click="startEdit(b)"
+          >
+            Edit
+          </button>
+          <button
+            class="text-white p-2"
+            @click="remove(b.id)"
+            style="background-color: darkred; border: none"
+          >
+            Delete
+          </button>
         </template>
       </li>
     </ul>
