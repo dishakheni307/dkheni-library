@@ -44,3 +44,21 @@ exports.capitalizeBookData = onDocumentCreated('books/{bookId}', async (event) =
   await doc.ref.update(updatedData)
   console.log('Capitalized book data:', updatedData)
 })
+
+exports.getAllBooks = onRequest((req, res) => {
+  cors(req, res, async () => {
+    // <-- wrap logic in cors()
+    try {
+      const snapshot = await admin.firestore().collection('books').get()
+      const books = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+
+      res.status(200).json(books)
+    } catch (error) {
+      console.error('Error fetching books:', error.message)
+      res.status(500).json({ error: 'Error fetching books' })
+    }
+  })
+})
