@@ -1,1 +1,0 @@
-import{o as e,c as t,a as o}from"./index-C4xzfdX_.js";const s={class:"about"},c=o("h1",{class:"text-center"},"About Our Library",-1),a=o("p",null,"Welcome to our digital library! We're dedicated to providing a vast collection of books and resources to our community.",-1),r=[c,a],l={__name:"AboutView",setup(i){return(n,_)=>(e(),t("div",s,r))}};export{l as default};
