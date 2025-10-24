@@ -20,7 +20,7 @@ const routes = [
     path: '/about',
     name: 'About',
     component: () => import('../views/AboutView.vue'),
-    meta: { requiresAuth: true } // <-- ADD THIS
+    meta: { requiresAuth: true }
   },
   { path: '/addbook', name: 'AddBook', component: AddBookView },
 
@@ -74,7 +74,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ path: '/login', query: { redirect: to.fullPath } })
   } else if (to.meta.requiresAdmin && role !== 'admin') {
-    next({ path: '/denied' }) // <-- you can make a DeniedView.vue
+    next({ path: '/denied' })
   } else {
     next()
   }
